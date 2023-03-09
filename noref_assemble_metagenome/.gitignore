@@ -1,0 +1,14 @@
+00.rawdata/*
+01.fastq_qc/*
+02.rmhost/*
+03.taxonomy/*
+04.assembly/*
+05.predict/*
+06.annotation/*
+07.abundcalc/*
+08.binning/*
+09.result/*
+/*_log
+nohup.out
+qsub_run_main.sh
+sample.list

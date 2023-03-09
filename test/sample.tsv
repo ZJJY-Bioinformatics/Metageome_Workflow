@@ -1,0 +1,5 @@
+GroupA	NCD42	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD42.R1.fq	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD42.R2.fq
+GroupA	NCD44	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD44.R1.fq	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD44.R2.fq
+GroupA	NCD47	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD47.R1.fq	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD47.R2.fq
+GroupB	NCD50	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD50.R1.fq	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD50.R2.fq
+GroupB	NCD8	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD8.R1.fq	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD8.R2.fq

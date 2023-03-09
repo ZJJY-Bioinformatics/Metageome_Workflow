@@ -1,0 +1,14 @@
+0.Info/*
+0.Input/*
+1.Kneaddata_Clean/*
+2.Humann2_Quantity/*
+3.Result_Sum/*
+4.Annot/*
+4.Out2CAMP/*
+5.HostGene_EXP/*
+shell/*
+run_main.sh
+*.sh.e*
+*.sh.o*
+work_qsub*
+.RData
