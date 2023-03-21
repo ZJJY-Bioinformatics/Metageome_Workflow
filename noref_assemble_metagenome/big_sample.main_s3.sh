@@ -1,9 +1,28 @@
 #!/bin/bash
 
-if [ ! -a qsub_run_main.sh ]; then rm qsub_run_main.sh ;fi
-if [ ! -a sample.list ]; then rm sample.list ;fi
+func() {
+    echo "Usage:"
+    echo "[-i]: The input tsv without header including four column which mean group, sample ,read1 and read2 fq file path"
+    echo "[-h]: The help document"
+    # shellcheck disable=SC2242
+    # shellcheck disable=SC2242
+    exit -1
+}
 
-cat /data/wangjiaxuan/rawdata/calm05_metagenome/all_samples.tsv | while read group sample fq1 fq2
+input="../test/sample.tsv"
+
+while getopts "i:h" opt; do
+    case $opt in
+      i) input="$OPTARG";;
+      h) func;;
+      ?) func;;
+    esac
+done
+
+if [ -a qsub_run_main.sh ]; then rm qsub_run_main.sh ;fi
+if [ -a sample.list ]; then rm sample.list ;fi
+
+cat ${input} | while read group sample fq1 fq2
 do
     echo ${sample} >> sample.list
 done

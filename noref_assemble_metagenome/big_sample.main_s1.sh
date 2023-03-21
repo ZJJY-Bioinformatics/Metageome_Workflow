@@ -1,9 +1,27 @@
 #!/bin/bash
 
-cp -r /data/wangjiaxuan/script/meta_gene/util/ ./
+func() {
+    echo "Usage:"
+    echo "[-i]: The input tsv without header including four column which mean group, sample ,read1 and read2 fq file path"
+    echo "[-h]: The help document"
+    # shellcheck disable=SC2242
+    # shellcheck disable=SC2242
+    exit -1
+}
 
-if [ ! -a qsub_run_main.sh ]; then rm qsub_run_main.sh ;fi
-if [ ! -a sample.list ]; then rm sample.list ;fi
+input="../test/sample.tsv"
+
+while getopts "i:h" opt; do
+    case $opt in
+      i) input="$OPTARG";;
+      h) func;;
+      ?) func;;
+    esac
+done
+
+
+if [ -a qsub_run_main.sh ]; then rm qsub_run_main.sh ;fi
+if [ -a sample.list ]; then rm sample.list ;fi
 
 out_dictory=(00.rawdata 01.fastq_qc 02.rmhost 03.taxonomy 04.assembly 05.predict 06.annotation 07.abundcalc 08.binning)
 
@@ -18,7 +36,7 @@ mkdir -p 06.annotation/ARG
 
 touch sample.list
 
-cat /data/wangjiaxuan/rawdata/calm05_metagenome/all_samples.tsv | while read group sample fq1 fq2
+cat ${input} | while read group sample fq1 fq2
 do
     ln -s ${fq1} 00.rawdata/${sample}.R1.fq.gz
     ln -s ${fq2} 00.rawdata/${sample}.R2.fq.gz

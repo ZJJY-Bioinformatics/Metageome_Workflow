@@ -30,16 +30,21 @@
 ```bash
 mkdir metagenome_denovo
 cd metagenome_denovo
-git clone 
+git clone https://github.com/ZJJY-Bioinformatics/Metageome_Workflow.git
+# 进入无参组装的文件目录里
+cd Metageome_Workflow/noref_assemble_metagenome
 ```
 
 ## Step0 生成样本meta表格
 
-一共有四列，分别是组名（可以不分组，但是一定要写），样本名称，样本测序Read1的fq.gz文件的绝对路径，样本测序Read2的fq.gz文件的绝对路径.
+制表符分割的，一共有**四列**，分别是`组名`（可以不分组，但是一定要写），`样本名称`，`样本测序Read1的fq.gz文件的绝对路径`，`样本测序Read2的fq.gz文件的绝对路径`.
+
+> 注意，必须是压缩格式的fq.gz，给集群省点资源
 
 格式模板如下：
 
 ```
+# 组名 样本名 read1 read2 (这一行不要写入meta表)
 group	SC00000858	~/SC00000858.R1.fq.gz	~/SC00000858.R2.fq.gz
 group	SC00001700	~/SC00001700.R1.fq.gz	~/SC00001700.R2.fq.gz
 ```
@@ -50,7 +55,18 @@ group	SC00001700	~/SC00001700.R1.fq.gz	~/SC00001700.R2.fq.gz
 
 运行`bash big_sample.main_s1.sh`, 成功后会有`qsub_run_main.sh`文件的生成，可以简单查看这个文件，一行是一个样本的命令。
 
-然后根据提示运行命令`nohup /data/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/python /data/wangjiaxuan/script/qsub.py -s 1 -g 100g -c 8 -l 8 --mn -r qsub_run_main.sh -b 1 &`将投递任务挂起即可。
+接下来用一个测试数据做个demo，其中`../test/sample.tsv`是整理好的meta表。
+
+```
+bash big_sample.main_s1.sh -i ../test/sample.tsv
+```
+
+然后根据提示运行命令
+
+```
+nohup /data/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/python /data/wangjiaxuan/script/qsub.py -s 1 -g 100g -c 8 -l 8 --mn -r qsub_run_main.sh -b 1 &
+```
+将投递任务挂起即可。
 
 随后等待等待所有样本分析结束。
 
@@ -66,7 +82,15 @@ group	SC00001700	~/SC00001700.R1.fq.gz	~/SC00001700.R2.fq.gz
 
 运行`bash big_sample.main_s3.sh`, 成功后会有`qsub_run_main.sh`文件的生成，可以简单查看这个文件，一行是一个样本的命令。
 
+```
+bash big_sample.main_s3.sh -i ../test/sample.tsv
+```
+
 然后根据提示运行命令`nohup /data/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/python /data/wangjiaxuan/script/qsub.py -s 1 -g 100g -c 8 -l 8 --mn -r qsub_run_main.sh -b 1 &`将投递任务挂起即可。
+
+```
+nohup /data/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/python /data/wangjiaxuan/script/qsub.py -s 1 -g 100g -c 8 -l 8 --mn -r qsub_run_main.sh -b 1 &
+```
 
 随后等待等待所有样本分析结束。
 
@@ -76,23 +100,9 @@ group	SC00001700	~/SC00001700.R1.fq.gz	~/SC00001700.R2.fq.gz
 
 这个脚本不用投递，直接在终端`bash big_sample.main_s4.sh`，等待结果输出即可. 结果放在`09.result/`, 其他中间文件在各自的文件中.
 
-## 备注
-
-1）生成meta表时候，可以套用以下代码生成（注意根据自己的文件情况修改）
-
-```sh
-#!/bin/bash
-abspath=$(pwd)
-
-ls XQ-2022*/S*/*.R1.fq.gz | while read fq1
-do
-  #应用了shell的正则匹配替换
-  sample=${fq1##*/}
-  sample=${sample%%.*}
-  abs_fq1=${abspath}/${fq1}
-  fq2=${fq1%%.*}
-  abs_fq2=${abspath}/${fq1}.R2.fq.gz
-
-  echo -e "group\t${sample}\t${abs_fq1}\t${abs_fq2}" >> samples.tsv
-done
 ```
+bash big_sample.main_s4.sh
+```
+
+# 结果输出
+
