@@ -35,11 +35,11 @@ if [ ! -e 4.Annot/ARG ]; then mkdir 4.Annot/ARG  ;fi
 if [ ! -e shell/ ]; then mkdir shell  ;fi
 if [ ! -e temp/ ]; then mkdir temp  ;fi
 
-# cat sample_meta.tsv | while read group sample fq1 fq2
-# do
-# ln -s ${fq1} 0.Input/${sample}.raw.R1.fq.gz
-# ln -s ${fq2} 0.Input/${sample}.raw.R2.fq.gz
-# done
+cat ${input} | while read group sample fq1 fq2
+do
+ln -s ${fq1} 0.Input/${sample}.raw.R1.fq.gz
+ln -s ${fq2} 0.Input/${sample}.raw.R2.fq.gz
+done
 
 # var set
 kneaddata_db=/data3/Group7/wangjiaxuan/refer/kneaddata_db/Homo_sapiens_hg37_and_human_contamination_Bowtie2_v0.1/
