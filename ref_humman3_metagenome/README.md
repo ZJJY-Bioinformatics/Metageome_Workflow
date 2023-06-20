@@ -40,14 +40,14 @@ bash ref_metagenome_step1.sh -i 上述示例meta文件.tsv
 然后会生成一个投递脚本`run_main.sh`, 根据提示用qsub投递任务。
 
 ```
-nohup /data/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/python /data/wangjiaxuan/script/qsub.py -s 1 -g 100g -c 8 -l 8 --mn -r run_main.sh -b 1 &
+nohup /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/python /data3/Group7/wangjiaxuan/script/qsub/qsub.pyc -s 1 -g 100g -c 8 -l 8 --mn -r run_main.sh -b 1 &
 ```
 
 然后开始每个样本分别投递，当分析完后，运行`ref_metagenome_step2.sh`
 可以用自己的qsub投递，也可以直接
 
 ```
-nohup /data/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/python /data/wangjiaxuan/script/qsub.py -s 1 -g 100g -c 8 -l 8 -r ref_metagenome_step2.sh &
+nohup /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/python /data3/Group7/wangjiaxuan/script/qsub/qsub.pyc -s 1 -g 100g -c 8 -l 8 -r ref_metagenome_step2.sh &
 ```
 
 ## 附录：
@@ -55,6 +55,6 @@ ref_metagenome_step3.sh 主要是针对宏转录组的宿主转录组分析，�
 
 运行：
 ```
-nohup /data/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/python /data/wangjiaxuan/script/qsub.py -s 1 -g 100g -c 8 -l 8 -r ref_metagenome_step3.sh &
+nohup /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/python /data3/Group7/wangjiaxuan/script/qsub/qsub.pyc -s 1 -g 100g -c 8 -l 8 -r ref_metagenome_step3.sh &
 ```
 
