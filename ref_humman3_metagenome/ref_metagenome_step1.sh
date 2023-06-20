@@ -110,7 +110,7 @@ done
   # -o 2.Humann2_Quantity/${sample}.kneaddata_genefamilies_cpm.tsv \
   # --units cpm && \
 
-echo "please run the comand <<<<nohup /data3/Group7/wangjiaxuan/biosoft/miniconda3/bin/python /data3/Group7/wangjiaxuan/script/qsub.py -s 1 -g 30g -c 8 -l 16 --mn -r run_main.sh -b 1 &>>>>"
+echo "please run the comand <<<<nohup /data3/Group7/wangjiaxuan/biosoft/miniconda3/bin/python /data3/Group7/wangjiaxuan/script/qsub/qsub.pyc -s 1 -g 30g -c 8 -l 16 --mn -r run_main.sh -b 1 &>>>>"
 
 #metaphlan --install --bowtie2db /data3/Group7/wangjiaxuan/refer/metaphlan/
 # ## 更新格式：humann_config --update <section> <name> <value>
