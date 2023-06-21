@@ -1,19 +1,13 @@
 #!/bin/bash
 
-export PATH="/data3/Group7/wangjiaxuan/biosoft/miniconda3/bin:\$PATH"
-source activate meta
-
 mkdir -p shell
 
 mv  work_qsub* shell
-mv *.tmp.Rout shell
 #---------------------------------
 
 python /data3/Group7/wangjiaxuan/script/merge_table.py \
 2.Humann2_Quantity/*_temp/*_bugs_list.tsv \
 -c relative_abundance > 3.Result_Sum/all.sample_buglist.tsv
-
-
 
 /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/kneaddata_read_count_table \
 --input 1.Kneaddata_Clean \
@@ -44,17 +38,18 @@ python /data3/Group7/wangjiaxuan/script/merge_table.py \
 -i 2.Humann2_Quantity \
 -o 3.Result_Sum/all.sample_genefamilies_cpm.tsv \
 --file_name genefamilies_cpm
+
 #----------<end>----------------
 #--------------<function>--------
 /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/humann_rename_table \
 --input 3.Result_Sum/all.sample_genefamilies.tsv \
---output 3.Result_Sum/all.sample_Functionfamilies.tsv \
---names uniref90
+--output 3.Result_Sum/all.sample_kegg-pathway.tsv \
+--names kegg-pathway
 
 /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/humann_rename_table \
 --input 3.Result_Sum/all.sample_genefamilies_cpm.tsv \
---output 3.Result_Sum/all.sample_Functionfamilie_cpms.tsv \
---names uniref90
+--output 3.Result_Sum/all.sample_eggnog_cpms.tsv \
+--names eggnog
 #--------------<end>---------
 
 # humann_rename_table \
@@ -64,10 +59,10 @@ python /data3/Group7/wangjiaxuan/script/merge_table.py \
 
 # Go注释
 
-/data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/humann_regroup_table \
---input 3.Result_Sum/all.sample_genefamilies_cpm.tsv \
---groups uniref90_go \
---output 3.Result_Sum/all.sample_GO_cpms.tsv
+# /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/humann_regroup_table \
+# --input 3.Result_Sum/all.sample_genefamilies_cpm.tsv \
+# --groups uniref90_go \
+# --output 3.Result_Sum/all.sample_GO_cpms.tsv
 
 /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/humann_rename_table \
 --input 3.Result_Sum/all.sample_GO_cpms.tsv \
@@ -88,10 +83,10 @@ python /data3/Group7/wangjiaxuan/script/merge_table.py \
 
 # kegg 注释
 
-/data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/humann_regroup_table \
---input 3.Result_Sum/all.sample_genefamilies_cpm.tsv \
---groups uniref90_ko \
---output 3.Result_Sum/all.sample_KO_cpms.tsv
+# /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/humann_regroup_table \
+# --input 3.Result_Sum/all.sample_genefamilies_cpm.tsv \
+# --groups uniref90_ko \
+# --output 3.Result_Sum/all.sample_KO_cpms.tsv
 
 /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/humann_rename_table \
 --input 3.Result_Sum/all.sample_KO_cpms.tsv \
