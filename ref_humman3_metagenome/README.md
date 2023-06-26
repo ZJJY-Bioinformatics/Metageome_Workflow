@@ -22,11 +22,11 @@ source activate meta
 例如[示例文件../test/sample_fq.tsv](../test/sample_fq.tsv)：
 
 ```
-GroupA	NCD42	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD42.R1.fq	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD42.R2.fq.gz
-GroupA	NCD44	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD44.R1.fq	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD44.R2.fq.gz
-GroupA	NCD47	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD47.R1.fq	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD47.R2.fq.gz
-GroupB	NCD50	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD50.R1.fq	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD50.R2.fq.gz
-GroupB	NCD8	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD8.R1.fq	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD8.R2.fq.gz
+GroupA	NCD42	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD42.R1.fq.gz	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD42.R2.fq.gz
+GroupA	NCD44	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD44.R1.fq.gz	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD44.R2.fq.gz
+GroupA	NCD47	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD47.R1.fq.gz	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD47.R2.fq.gz
+GroupB	NCD50	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD50.R1.fq.gz	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD50.R2.fq.gz
+GroupB	NCD8	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD8.R1.fq.gz	/data2/wangjiaxuan/MetaGenome_workflow/test/NCD8.R2.fq.gz
 ```
 
 可见，一行是一个样本，如果是一个样本对应多个line的**fq.gz文件(必须是gz压缩格式的)**，可以自己合并在一起，再输入合并后的read1和read2 路径。
