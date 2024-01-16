@@ -4,21 +4,28 @@ mkdir -p shell
 
 mv  work_qsub* shell
 #---------------------------------
-
-python /data3/Group7/wangjiaxuan/script/merge_table.py \
-2.Humann2_Quantity/*_temp/*_bugs_list.tsv \
--c relative_abundance > 3.Result_Sum/all.sample_buglist.tsv
-
-/data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/kneaddata_read_count_table \
---input 1.Kneaddata_Clean \
---output 1.Kneaddata_Clean/kneaddata_qc_result.tsv
-
-#
+# 输出相对丰度
+python /data3/Group7/wangjiaxuan/script/merge_table_v2.py \
+2.Humann2_Quantity/*_profiled_metagenome.txt \
+-c 1 \
+-o 3.Result_Sum/all.sample_buglist_.tsv \
+--skip_rownumber 5 \
+--colnames_replace _profiled_metagenome.txt \
+--overwrite
+# 输出绝对丰度
+python /data3/Group7/wangjiaxuan/script/merge_table_v2.py \
+2.Humann2_Quantity/*_profiled_metagenome.txt \
+-c 3 \
+-o 3.Result_Sum/all.sample_buglist_.tsv \
+--skip_rownumber 5 \
+--colnames_replace _profiled_metagenome_count.txt \
+--overwrite
+# 输出质控
 /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/multiqc \
 -d 1.Kneaddata_Clean/fastqc \
 -o 1.Kneaddata_Clean/multiqc_result
 
-#
+# 汇总下humann的结果
 /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/humann_join_tables \
 -i 2.Humann2_Quantity \
 -o 3.Result_Sum/all.sample_genefamilies.tsv \
@@ -99,3 +106,42 @@ mkdir  4.Out2CAMP
 
 /data3/Group7/wangjiaxuan/biosoft/miniconda3/bin/Rscript \
 /data3/Group7/wangjiaxuan/script/out2cmap.r
+
+
+# ARGS
+/data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/args_oap stage_one \
+-i 1.Kneaddata_Clean/clean_data/ \
+-o 4.Annot/ARG \
+-f fastq \
+-t 32 > 4.Annot/ARG/stage_one_log 2>&1 
+
+/data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/args_oap stage_two \
+-i 4.Annot/ARG/ \
+-t 64 > 4.Annot/ARG/stage_two_log 2>&1
+
+# Strainphlan
+/data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/sample2markers.py \
+-i 2.Humann2_Quantity/*.sam.bz2 -o 6.SNP -n 8
+
+mkdir -p 6.SNP/target_markers_seq
+/data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/extract_markers.py \
+-c t__SGB10115 -o 6.SNP/target_markers_seq
+
+mkdir -p 6.SNP/output
+mkdir -p 6.SNP/tmp
+
+strainphlan -s 6.SNP/marker_snp/*.pkl \
+-m 6.SNP/target_markers_seq/t__SGB10115.fna \
+-o 6.SNP/output \
+-n 8 \
+-c t__SGB10115 \
+--mutation_rates
+
+#-r reference_genomes/G000273725.fna.bz2
+
+/data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/iqtree \
+-s t__SGB10115.StrainPhlAn4_concatenated.aln \
+-m TEST \
+-bb 1000 \
+-nt 2 \
+-pre iqtree_output
