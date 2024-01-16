@@ -32,6 +32,12 @@ if [ ! -e 1.Kneaddata_Clean/log ]; then mkdir 1.Kneaddata_Clean/log  ;fi
 if [ ! -e 1.Kneaddata_Clean/clean_data ]; then mkdir 1.Kneaddata_Clean/clean_data  ;fi
 if [ ! -e 4.Annot ]; then mkdir 4.Annot  ;fi
 if [ ! -e 4.Annot/ARG ]; then mkdir 4.Annot/ARG  ;fi
+if [ ! -e 4.Annot/RGI ]; then mkdir 4.Annot/RGI  ;fi
+if [ ! -e 5.Assemble ]; then mkdir 5.Assemble  ;fi
+if [ ! -e 5.Assemble/Megahit ]; then mkdir 5.Assemble/Megahit  ;fi
+if [ ! -e 6.SNP ]; then mkdir 6.SNP  ;fi
+if [ ! -e 6.SNP/marker_snp ]; then mkdir 6.SNP/marker_snp  ;fi
+
 if [ ! -e shell/ ]; then mkdir shell  ;fi
 if [ ! -e temp/ ]; then mkdir temp  ;fi
 
@@ -44,28 +50,25 @@ done
 # var set
 kneaddata_db=/data3/Group7/wangjiaxuan/refer/kneaddata_db/Homo_sapiens_hg37_and_human_contamination_Bowtie2_v0.1/
 run_mem=506384m
-trimmomatic_p="SLIDINGWINDOW:5:20 MINLEN:36 LEADING:3 TRAILING:3 ILLUMINACLIP:/tools/Trimmomatic-0.38/adapters/TruSeq3-PE.fa:2:30:10"
+trimmomatic_p="SLIDINGWINDOW:4:20 MINLEN:50 ILLUMINACLIP:/tools/Trimmomatic-0.38/adapters/TruSeq3-PE.fa:2:30:10"
 
+# main script
 cat ${input} | while read group sample fq1 fq2
 do
 echo "export PATH="/data3/Group7/wangjiaxuan/biosoft/miniconda3/bin/:\$PATH" && source activate meta && \
-gunzip 0.Input/${sample}.raw.R1.fq.gz -c > temp/${sample}.R1.fq && \
-gunzip 0.Input/${sample}.raw.R2.fq.gz -c > temp/${sample}.R2.fq && \
-echo -e "temp/${sample}.R1.fq\\\\ntemp/${sample}.R2.fq" > 0.Input/${sample}_fq.list && \
-/data3/Group7/wangjiaxuan/biosoft/FastUniq/source/fastuniq \
--i 0.Input/${sample}_fq.list \
--o 0.Input/${sample}.uniq.R1.fq -p 0.Input/${sample}.uniq.R2.fq && \
-rm temp/${sample}.R1.fq temp/${sample}.R2.fq && \
+pigz -p 8 -d -c 0.Input/${sample}.raw.R1.fq.gz -c > 0.Input/${sample}.R1.fq && \
+pigz -p 8 -d -c 0.Input/${sample}.raw.R2.fq.gz -c > 0.Input/${sample}.R2.fq && \
 /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/kneaddata \
-  -i 0.Input/${sample}.uniq.R1.fq \
-  -i 0.Input/${sample}.uniq.R2.fq \
+  -i 0.Input/${sample}.R1.fq \
+  -i 0.Input/${sample}.R2.fq \
   -o 1.Kneaddata_Clean \
   --output-prefix ${sample}.kneaddata \
   --remove-intermediate-output \
-  --cat-final-output \
+  --reorder \
   --log 1.Kneaddata_Clean/log/${sample}.kneaddata.log \
   -db ${kneaddata_db} \
   -t 10 \
+  --sequencer-source TruSeq3 \
   --max-memory ${run_mem} \
   --trimmomatic-options \"${trimmomatic_p}\" \
   --bowtie2-options \"--very-sensitive --dovetail\" \
@@ -74,10 +77,19 @@ rm temp/${sample}.R1.fq temp/${sample}.R2.fq && \
   --trimmomatic /data3/Group7/wangjiaxuan/biosoft/Trimmomatic \
   --run-fastqc-start \
   --run-fastqc-end \
-  --fastqc /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin &&\
-  rm 0.Input/${sample}.uniq.R1.fq 0.Input/${sample}.uniq.R2.fq && \
-  mv  1.Kneaddata_Clean/${sample}.kneaddata.fastq 1.Kneaddata_Clean/clean_data && \
-  /home/tangwenli/miniconda3/envs/humann3/bin/humann \
+  --fastqc /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin && \
+  mv 1.Kneaddata_Clean/${sample}.kneaddata_paired_[12].fastq 1.Kneaddata_Clean/clean_data/ && \
+  mv 1.Kneaddata_Clean/${sample}.kneaddata_unmatched_[12].fastq 1.Kneaddata_Clean/clean_data/ && \
+  cat 1.Kneaddata_Clean/clean_data/${sample}*.fastq > 1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq && \
+  /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/metaphlan \
+  1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq \
+  -o 2.Humann2_Quantity/${sample}_profiled_metagenome.txt \
+  -s 2.Humann2_Quantity/${sample}.sam.bz2 \
+  --input_type fastq \
+  -t rel_ab_w_read_stats \
+  --nproc 12 \
+  --bowtie2out 2.Humann2_Quantity/${sample}_metagonem_mapping && \
+  /home/tangwenli/miniconda3/envs/humann3/bin/humann  \
   --threads 25 \
   --input  1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq \
   --output 2.Humann2_Quantity \
@@ -86,29 +98,11 @@ rm temp/${sample}.R1.fq temp/${sample}.R2.fq && \
   -i 2.Humann2_Quantity/${sample}.kneaddata_genefamilies.tsv \
   -o 2.Humann2_Quantity/${sample}.kneaddata_genefamilies_cpm.tsv \
   --units cpm && \
+  rm -rf 2.Humann2_Quantity/${sample}.kneaddata_humann_temp && \
+  rm 1.Kneaddata_Clean/clean_data/${sample}.kneaddata_unmatched_[12].fastq  && \
   gzip 1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq && \
   rm  1.Kneaddata_Clean/${sample}*.fast[qa] 1.Kneaddata_Clean/${sample}*.fast[qa]*.dat 1.Kneaddata_Clean/reformatted_identifier*${sample}*" >> run_main.sh
 done
-
-# 只做物种定量
-  # /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/metaphlan \
-  # 1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq \
-  # -o 2.Humann2_Quantity/${sample}_profiled_metagenome.txt \
-  # -s 2.Humann2_Quantity/${sample}.sam.bz2 \
-  # --input_type fastq \
-  # -t rel_ab_w_read_stats \
-  # --nproc 12 \
-  # --bowtie2out 2.Humann2_Quantity/${sample}_metagonem_mapping && \
-# 做功能注释
-  # /home/tangwenli/miniconda3/envs/humann3/bin/humann \
-  # --threads 25 \
-  # --input  1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq \
-  # --output 2.Humann2_Quantity \
-  # --search-mode uniref90 && \
-  # /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/humann_renorm_table \
-  # -i 2.Humann2_Quantity/${sample}.kneaddata_genefamilies.tsv \
-  # -o 2.Humann2_Quantity/${sample}.kneaddata_genefamilies_cpm.tsv \
-  # --units cpm && \
 
 echo "please run the comand <<<<nohup /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/python /data3/Group7/wangjiaxuan/script/qsub/qsub.pyc -s 1 -g 30g -c 8 -l 16 --mn -r run_main.sh -b 1 &>>>>"
 
