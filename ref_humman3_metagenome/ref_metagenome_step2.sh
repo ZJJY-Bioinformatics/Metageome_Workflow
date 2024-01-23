@@ -29,7 +29,7 @@ python /data3/Group7/wangjiaxuan/script/merge_table_v2.py \
 /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/humann_join_tables \
 -i 2.Humann2_Quantity \
 -o 3.Result_Sum/all.sample_genefamilies.tsv \
---file_name genefamilies
+--file_name genefamilies.tsv
 
 /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/humann_join_tables \
 -i 2.Humann2_Quantity \
