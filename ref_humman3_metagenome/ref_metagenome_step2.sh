@@ -72,10 +72,10 @@ python /data3/Group7/wangjiaxuan/script/merge_table_v2.py \
 # --groups uniref90_go \
 # --output 3.Result_Sum/all.sample_GO_cpms.tsv
 
-/data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/humann_rename_table \
---input 3.Result_Sum/all.sample_GO_cpms.tsv \
---output 3.Result_Sum/all.sample_GO_term_cpms.tsv \
---names go
+# /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/humann_rename_table \
+# --input 3.Result_Sum/all.sample_GO_cpms.tsv \
+# --output 3.Result_Sum/all.sample_GO_term_cpms.tsv \
+# --names go
 
 # metacyc pathway
 
@@ -96,10 +96,10 @@ python /data3/Group7/wangjiaxuan/script/merge_table_v2.py \
 # --groups uniref90_ko \
 # --output 3.Result_Sum/all.sample_KO_cpms.tsv
 
-/data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/humann_rename_table \
---input 3.Result_Sum/all.sample_KO_cpms.tsv \
---output 3.Result_Sum/all.sample_KEGG_pathway_cpms.tsv \
---names kegg-orthology
+# /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/humann_rename_table \
+# --input 3.Result_Sum/all.sample_KO_cpms.tsv \
+# --output 3.Result_Sum/all.sample_KEGG_pathway_cpms.tsv \
+# --names kegg-orthology
 
 #=================================
 
