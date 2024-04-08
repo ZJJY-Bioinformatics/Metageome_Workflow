@@ -1,5 +1,6 @@
 #!/bin/bash
-
+export PATH="/data3/Group7/wangjiaxuan/biosoft/miniconda3/bin/:\$PATH"
+source activate meta
 mkdir -p shell
 
 mv  work_qsub* shell
