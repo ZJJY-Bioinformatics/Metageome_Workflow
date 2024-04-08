@@ -103,10 +103,10 @@ python /data3/Group7/wangjiaxuan/script/merge_table_v2.py \
 
 #=================================
 
-mkdir  4.Out2CAMP
+# mkdir  4.Out2CAMP
 
-/data3/Group7/wangjiaxuan/biosoft/miniconda3/bin/Rscript \
-/data3/Group7/wangjiaxuan/script/out2cmap.r
+# /data3/Group7/wangjiaxuan/biosoft/miniconda3/bin/Rscript \
+# /data3/Group7/wangjiaxuan/script/out2cmap.r
 
 
 # ARGS
