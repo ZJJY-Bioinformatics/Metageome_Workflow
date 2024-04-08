@@ -8,7 +8,7 @@ mv  work_qsub* shell
 python /data3/Group7/wangjiaxuan/script/merge_table_v2.py \
 2.Humann2_Quantity/*_profiled_metagenome.txt \
 -c 1 \
--o 3.Result_Sum/all.sample_buglist_.tsv \
+-o 3.Result_Sum/all.sample_buglist_rel.tsv \
 --skip_rownumber 5 \
 --colnames_replace _profiled_metagenome.txt \
 --overwrite
@@ -16,7 +16,7 @@ python /data3/Group7/wangjiaxuan/script/merge_table_v2.py \
 python /data3/Group7/wangjiaxuan/script/merge_table_v2.py \
 2.Humann2_Quantity/*_profiled_metagenome.txt \
 -c 3 \
--o 3.Result_Sum/all.sample_buglist_.tsv \
+-o 3.Result_Sum/all.sample_buglist.tsv \
 --skip_rownumber 5 \
 --colnames_replace _profiled_metagenome_count.txt \
 --overwrite
