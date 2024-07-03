@@ -30,6 +30,7 @@ if [ ! -e 2.Humann2_Quantity ]; then mkdir 2.Humann2_Quantity  ;fi
 if [ ! -e 1.Kneaddata_Clean ]; then mkdir 1.Kneaddata_Clean  ;fi
 if [ ! -e 1.Kneaddata_Clean/log ]; then mkdir 1.Kneaddata_Clean/log  ;fi
 if [ ! -e 1.Kneaddata_Clean/clean_data ]; then mkdir 1.Kneaddata_Clean/clean_data  ;fi
+if [ ! -e 1.Kneaddata_Clean/host_data ]; then mkdir 1.Kneaddata_Clean/host_data  ;fi
 if [ ! -e 4.Annot ]; then mkdir 4.Annot  ;fi
 if [ ! -e 4.Annot/ARG ]; then mkdir 4.Annot/ARG  ;fi
 if [ ! -e 4.Annot/RGI ]; then mkdir 4.Annot/RGI  ;fi
@@ -80,7 +81,11 @@ pigz -p 8 -d -c 0.Input/${sample}.raw.R2.fq.gz -c > 0.Input/${sample}.R2.fq && \
   --fastqc /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin && \
   mv 1.Kneaddata_Clean/${sample}.kneaddata_paired_[12].fastq 1.Kneaddata_Clean/clean_data/ && \
   mv 1.Kneaddata_Clean/${sample}.kneaddata_unmatched_[12].fastq 1.Kneaddata_Clean/clean_data/ && \
+  mv 1.Kneaddata_Clean/${sample}.kneaddata_*_contam.fastq 1.Kneaddata_Clean/host_data/ && \
+  mv 1.Kneaddata_Clean/${sample}.kneaddata_*contam_[12].fastq 1.Kneaddata_Clean/host_data/ && \
   cat 1.Kneaddata_Clean/clean_data/${sample}*.fastq > 1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq && \
+  rm 0.Input/${sample}.R1.fq  && \
+  rm 0.Input/${sample}.R2.fq  && \
   /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/metaphlan \
   1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq \
   -o 2.Humann2_Quantity/${sample}_profiled_metagenome.txt \
@@ -99,8 +104,9 @@ pigz -p 8 -d -c 0.Input/${sample}.raw.R2.fq.gz -c > 0.Input/${sample}.R2.fq && \
   -o 2.Humann2_Quantity/${sample}.kneaddata_genefamilies_cpm.tsv \
   --units cpm && \
   rm -rf 2.Humann2_Quantity/${sample}.kneaddata_humann_temp && \
-  rm 1.Kneaddata_Clean/clean_data/${sample}.kneaddata_unmatched_[12].fastq  && \
-  gzip 1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq && \
+  pigz -p 4 1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq && \
+  pigz -p 4 1.Kneaddata_Clean/clean_data/${sample}.kneaddata_paired_[12].fastq && \
+  pigz -p 4 1.Kneaddata_Clean/host_data/${sample}.*.fastq && \
   rm  1.Kneaddata_Clean/${sample}*.fast[qa] 1.Kneaddata_Clean/${sample}*.fast[qa]*.dat 1.Kneaddata_Clean/reformatted_identifier*${sample}*" >> run_main.sh
 done
 
