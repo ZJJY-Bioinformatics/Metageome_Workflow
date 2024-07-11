@@ -86,7 +86,7 @@ pigz -p 8 -d -c 0.Input/${sample}.raw.R2.fq.gz -c > 0.Input/${sample}.R2.fq && \
   cat 1.Kneaddata_Clean/clean_data/${sample}*.fastq > 1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq && \
   rm 0.Input/${sample}.R1.fq  && \
   rm 0.Input/${sample}.R2.fq  && \
-  /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/metaphlan \
+/data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/metaphlan \
   1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq \
   -o 2.Humann2_Quantity/${sample}_profiled_metagenome.txt \
   -s 2.Humann2_Quantity/${sample}.sam.bz2 \
@@ -94,7 +94,7 @@ pigz -p 8 -d -c 0.Input/${sample}.raw.R2.fq.gz -c > 0.Input/${sample}.R2.fq && \
   -t rel_ab_w_read_stats \
   --nproc 12 \
   --bowtie2out 2.Humann2_Quantity/${sample}_metagonem_mapping && \
-  /home/tangwenli/miniconda3/envs/humann3/bin/humann  \
+/home/tangwenli/miniconda3/envs/humann3/bin/humann  \
   --threads 25 \
   --input  1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq \
   --output 2.Humann2_Quantity \
@@ -104,9 +104,10 @@ pigz -p 8 -d -c 0.Input/${sample}.raw.R2.fq.gz -c > 0.Input/${sample}.R2.fq && \
   -o 2.Humann2_Quantity/${sample}.kneaddata_genefamilies_cpm.tsv \
   --units cpm && \
   rm -rf 2.Humann2_Quantity/${sample}.kneaddata_humann_temp && \
-  pigz -p 4 1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq && \
-  pigz -p 4 1.Kneaddata_Clean/clean_data/${sample}.kneaddata_paired_[12].fastq && \
-  pigz -p 4 1.Kneaddata_Clean/host_data/${sample}.*.fastq && \
+  pigz -p 8 1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq && \
+  pigz -p 8 1.Kneaddata_Clean/clean_data/${sample}.kneaddata_unmatched_[12].fastq && \
+  pigz -p 8 1.Kneaddata_Clean/clean_data/${sample}.kneaddata_unmatched_[12].fastq && \
+  pigz -p 8 1.Kneaddata_Clean/host_data/${sample}.*.fastq && \
   rm  1.Kneaddata_Clean/${sample}*.fast[qa] 1.Kneaddata_Clean/${sample}*.fast[qa]*.dat 1.Kneaddata_Clean/reformatted_identifier*${sample}*" >> run_main.sh
 done
 
