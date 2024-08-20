@@ -104,9 +104,9 @@ pigz -p 8 -d -c 0.Input/${sample}.raw.R2.fq.gz -c > 0.Input/${sample}.R2.fq && \
   -o 2.Humann2_Quantity/${sample}.kneaddata_genefamilies_cpm.tsv \
   --units cpm && \
   rm -rf 2.Humann2_Quantity/${sample}.kneaddata_humann_temp && \
-  pigz -p 8 1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq && \
+  rm 1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq && \
   pigz -p 8 1.Kneaddata_Clean/clean_data/${sample}.kneaddata_unmatched_[12].fastq && \
-  pigz -p 8 1.Kneaddata_Clean/clean_data/${sample}.kneaddata_unmatched_[12].fastq && \
+  pigz -p 8 1.Kneaddata_Clean/clean_data/${sample}.kneaddata_paired_[12].fastq && \
   pigz -p 8 1.Kneaddata_Clean/host_data/${sample}.*.fastq && \
   rm  1.Kneaddata_Clean/${sample}*.fast[qa] 1.Kneaddata_Clean/${sample}*.fast[qa]*.dat 1.Kneaddata_Clean/reformatted_identifier*${sample}*" >> run_main.sh
 done
