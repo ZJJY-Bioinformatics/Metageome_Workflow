@@ -1,9 +1,9 @@
 #!/bin/bash
-export PATH="/data3/Group7/wangjiaxuan/biosoft/miniconda3/bin/:\$PATH"
+export PATH="/data3/Group7/wangjiaxuan/biosoft/miniconda3/bin/\$PATH"
 source activate meta
 mkdir -p shell
 
-mv  work_qsub* shell
+mv  qsub* shell
 #---------------------------------
 # 输出相对丰度
 python /data3/Group7/wangjiaxuan/script/merge_table_v2.py \
