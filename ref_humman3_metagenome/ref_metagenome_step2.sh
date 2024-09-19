@@ -131,7 +131,7 @@ mkdir -p 6.SNP/target_markers_seq
 mkdir -p 6.SNP/output
 mkdir -p 6.SNP/tmp
 
-/data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/strainphlan -s 6.SNP/marker_snp/*.pkl \
+/data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/strainphlan -s 6.SNP/*.pkl \
 -m 6.SNP/target_markers_seq/t__SGB10115.fna \
 -o 6.SNP/output \
 -n 8 \
