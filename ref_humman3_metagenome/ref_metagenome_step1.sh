@@ -83,7 +83,7 @@ pigz -p 8 -d -c 0.Input/${sample}.raw.R2.fq.gz -c > 0.Input/${sample}.R2.fq && \
   mv 1.Kneaddata_Clean/${sample}.kneaddata_unmatched_[12].fastq 1.Kneaddata_Clean/clean_data/ && \
   mv 1.Kneaddata_Clean/${sample}.kneaddata_*_contam.fastq 1.Kneaddata_Clean/host_data/ && \
   mv 1.Kneaddata_Clean/${sample}.kneaddata_*contam_[12].fastq 1.Kneaddata_Clean/host_data/ && \
-  cat 1.Kneaddata_Clean/clean_data/${sample}*.fastq > 1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq && \
+  cat 1.Kneaddata_Clean/clean_data/${sample}*_[12].fastq > 1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq && \
   rm 0.Input/${sample}.R1.fq  && \
   rm 0.Input/${sample}.R2.fq  && \
 /data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/metaphlan \
