@@ -94,7 +94,7 @@ pigz -p 8 -d -c 0.Input/${sample}.raw.R2.fq.gz -c > 0.Input/${sample}.R2.fq && \
   -t rel_ab_w_read_stats \
   --nproc 12 \
   --bowtie2out 2.Humann2_Quantity/${sample}_metagonem_mapping && \
-/home/tangwenli/miniconda3/envs/humann3/bin/humann  \
+/data3/Group7/wangjiaxuan/biosoft/miniconda3/envs/meta/bin/humann  \
   --threads 25 \
   --input  1.Kneaddata_Clean/clean_data/${sample}.kneaddata.fastq \
   --output 2.Humann2_Quantity \
