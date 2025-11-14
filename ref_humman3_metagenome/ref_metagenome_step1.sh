@@ -111,7 +111,7 @@ pigz -p 8 -d -c 0.Input/${sample}.raw.R2.fq.gz -c > 0.Input/${sample}.R2.fq && \
   rm  1.Kneaddata_Clean/${sample}*.fast[qa] 1.Kneaddata_Clean/${sample}*.fast[qa]*.dat 1.Kneaddata_Clean/reformatted_identifier*${sample}*" >> run_main.sh
 done
 
-echo "please run the comand <<<<nohup /data3/Group7/wangjiaxuan/biosoft/miniconda3/bin/python /data3/Group7/wangjiaxuan/script/qsub.py -s 1 -g 30g -c 8 -l 16 --mn -r run_main.sh -b 1 &>>>>"
+echo "please run the comand <<<<nohup /data3/Group7/wangjiaxuan/biosoft/miniconda3/bin/python /data3/Group7/wangjiaxuan/script/qsub_delh2.py -s 1 -g 30g -c 8 -l 16 --mn -r run_main.sh -b 1 &>>>>"
 
 #metaphlan --install --bowtie2db /data3/Group7/wangjiaxuan/refer/metaphlan/
 # ## 更新格式：humann_config --update <section> <name> <value>
